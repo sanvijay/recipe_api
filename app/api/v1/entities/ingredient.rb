@@ -21,7 +21,6 @@ module V1
                desc: 'Ingredient description',
                required: true
              }, expose_nil: false
-      end
     end
   end
 end
