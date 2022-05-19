@@ -76,17 +76,17 @@ group :development do
   # A RuboCop extension focused on enforcing Rails best practices and coding conventions.
   gem 'rubocop-rails', require: false
 
-  # # Internal documentation library for API
-  # gem 'grape-swagger'
+  # Internal documentation library for API
+  gem 'grape-swagger'
 
-  # # Swagger dependency for formatting Grape entities
-  # gem 'grape-swagger-entity'
+  # Swagger dependency for formatting Grape entities
+  gem 'grape-swagger-entity'
 
-  # # Swagger UI library
-  # gem 'grape-swagger-rails'
+  # Swagger UI library
+  gem 'grape-swagger-rails'
 
-  # # Dependency for Swagger UI
-  # gem 'sprockets-rails', require: 'sprockets/railtie'
+  # Dependency for Swagger UI
+  gem 'sprockets-rails', require: 'sprockets/railtie'
 end
 
 group :test do

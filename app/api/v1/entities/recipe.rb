@@ -33,6 +33,12 @@ module V1
                desc: 'Duration in Minutes for recipe',
                required: true
              }, expose_nil: false
+      expose :servings,
+             documentation: {
+               type: 'Integer',
+               desc: 'No of Servings',
+               required: true
+             }, expose_nil: false
 
       expose :is_favorite do |recipe, options|
         options[:current_user] ?

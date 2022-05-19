@@ -17,16 +17,27 @@
 #
 
 class Recipe < ApplicationRecord
-	before_validation :create_slug
+  validates :title, presence: true
+  validates :description, presence: true
+  validates :image_url, presence: true
+  validates :author_id, presence: true
+  validates :slug, presence: true, uniqueness: true
 
   belongs_to :author, class_name: "User"
 
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :liked_users, through: :favorites, class_name: "User", source: :user
 
-	private
+  before_validation :create_slug
+  before_save :store_ingredient_array
+
+  private
 
   def create_slug
     self.slug = title&.parameterize unless slug
+  end
+
+  def store_ingredient_array
+    self.ingredients = ingredient_details.map { |ing| ing['title'].downcase }
   end
 end

@@ -9,4 +9,5 @@ Rails.application.routes.draw do
 
   mount BaseAPI, at: '/'
   get '/', to: 'application#index'
+  mount GrapeSwaggerRails::Engine => '/swagger' if Rails.env.development?
 end

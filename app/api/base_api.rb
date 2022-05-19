@@ -8,11 +8,13 @@ class BaseAPI < Grape::API
   mount V1::Oauth
   mount V1::Recipes
 
-  # add_swagger_documentation hide_documentation_path: true,
-  #                           models: [],
-  #                           api_version: 'v1',
-  #                           info: {
-  #                             title: 'API Documentation',
-  #                             description: "REST-ish endpoints for Recipe's mobile application"
-  #                           }
+  if Rails.env.development?
+    add_swagger_documentation hide_documentation_path: true,
+                            models: [],
+                            api_version: 'v1',
+                            info: {
+                              title: 'API Documentation',
+                              description: "REST-ish endpoints for Recipe's mobile application"
+                            }
+  end
 end
