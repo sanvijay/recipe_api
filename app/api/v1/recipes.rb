@@ -133,13 +133,13 @@ module V1
 
         requires :ingredient_details, type: Array[JSON] do
           requires :title,    type: String
-          requires :quantity, type: Integer
+          requires :quantity, type: Float
           requires :unit,     type: String
         end
 
         requires :instructions, type: Array[JSON] do
           requires :value,     type: String
-          requires :duration,  type: Integer
+          requires :duration,  type: Float
           requires :unit,      type: String
           requires :order,     type: Integer
           optional :image_url, type: String
