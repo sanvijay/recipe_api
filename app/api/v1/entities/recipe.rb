@@ -48,6 +48,9 @@ module V1
 
       expose :ingredient_details
       expose :instructions
+      expose :recipe_tags
+      expose :diet_type
+      expose :cuisine
     end
   end
 end

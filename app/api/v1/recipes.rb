@@ -130,6 +130,9 @@ module V1
         requires :image_url, type: String
         requires :duration_in_minutes, type: Integer
         requires :servings, type: Integer
+        requires :recipe_tags, type: Array[String]
+        requires :diet_type, type: String
+        requires :cuisine, type: String
 
         requires :ingredient_details, type: Array[JSON] do
           requires :title,    type: String
@@ -163,6 +166,9 @@ module V1
         optional :image_url, type: String
         optional :duration_in_minutes, type: Integer
         optional :servings, type: Integer
+        optional :recipe_tags, type: Array[String]
+        optional :diet_type, type: String
+        optional :cuisine, type: String
 
         optional :ingredient_details, type: Array[JSON] do
           requires :title,    type: String
