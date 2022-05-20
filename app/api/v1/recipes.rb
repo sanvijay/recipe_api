@@ -50,6 +50,29 @@ module V1
         present pagy(recipes), with: V1::Entities::Recipe, current_user: current_user
       end
 
+      desc 'View all favorite recipes' do
+        success V1::Entities::Recipe
+      end
+
+      params do
+        optional :title, type: String
+        use :pagy,
+            items_param: :page_size,
+            items: 10
+      end
+
+      get '/favorite_list' do
+        doorkeeper_authorize!
+
+        recipes = current_user.favorite_recipes
+
+        if params[:title].present?
+          recipes = recipes.where('LOWER(title) LIKE ?', "%#{params[:title].downcase}%")
+        end
+
+        present pagy(recipes), with: V1::Entities::Recipe, current_user: current_user
+      end
+
       desc 'Search recipes' do
         success V1::Entities::Recipe
       end
@@ -95,29 +118,6 @@ module V1
 
           present recipe_details, with: V1::Entities::Recipe, current_user: current_user
         end
-      end
-
-      desc 'View all favorite recipes' do
-        success V1::Entities::Recipe
-      end
-
-      params do
-        optional :title, type: String
-        use :pagy,
-            items_param: :page_size,
-            items: 10
-      end
-
-      get '/favorite_list' do
-        doorkeeper_authorize!
-
-        recipes = current_user.favorite_recipes
-
-        if params[:title].present?
-          recipes = recipes.where('LOWER(title) LIKE ?', "%#{params[:title].downcase}%")
-        end
-
-        present pagy(recipes), with: V1::Entities::Recipe, current_user: current_user
       end
 
       desc 'Create Recipe' do
