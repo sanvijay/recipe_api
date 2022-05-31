@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_20_084109) do
+ActiveRecord::Schema.define(version: 2022_05_31_121437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(version: 2022_05_20_084109) do
     t.index ["recipe_id"], name: "index_favorites_on_recipe_id"
     t.index ["user_id", "recipe_id"], name: "index_favorites_on_user_id_and_recipe_id", unique: true
     t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.string "type"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -83,6 +90,7 @@ ActiveRecord::Schema.define(version: 2022_05_20_084109) do
     t.string "diet_type"
     t.string "cuisine"
     t.string "recipe_tags", default: [], array: true
+    t.index ["slug"], name: "index_recipes_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -99,6 +107,10 @@ ActiveRecord::Schema.define(version: 2022_05_20_084109) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

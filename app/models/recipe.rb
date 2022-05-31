@@ -23,6 +23,9 @@ class Recipe < ApplicationRecord
   validates :author_id, presence: true
   validates :slug, presence: true, uniqueness: true
 
+  validate :valid_ingredient_details
+  validate :valid_instructions
+
   belongs_to :author, class_name: "User"
 
   has_many :favorites, dependent: :destroy
@@ -35,6 +38,22 @@ class Recipe < ApplicationRecord
 
   def create_slug
     self.slug = title&.parameterize unless slug
+  end
+
+  def valid_ingredient_details
+    invalid = ingredient_details.any? do |ing|
+      ing["unit"].blank? || ing["title"].blank? || ing["quantity"].blank?
+    end
+
+    errors.add(:ingredient_details, "one or more ingredient details are invalid") if invalid
+  end
+
+  def valid_instructions
+    invalid = instructions.any? do |ing|
+      ing["unit"].blank? || ing["order"].blank? || ing["value"].blank? || ing["duration"].blank?
+    end
+
+    errors.add(:instructions, "one or more instructions are invalid") if invalid
   end
 
   def store_ingredient_array
