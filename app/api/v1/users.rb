@@ -17,9 +17,7 @@ module V1
         present current_user, with: V1::Entities::User
       end
 
-      desc 'Update User' do
-        success V1::Entities::User
-      end
+      desc 'Update User'
 
       params do
         optional :first_name, type: String
@@ -29,14 +27,13 @@ module V1
 
       post '/update' do
         doorkeeper_authorize!
-        recipe = Recipe.find_by(slug: params[:slug], author_id: current_user.id)
 
-        if recipe
-          recipe.assign_attributes(params)
-          recipe.save!
-        end
+        user = User.find(current_user.id)
+        user.first_name = params[:first_name]
+        user.last_name = params[:last_name]
+        user.save!
 
-        present recipe, with: V1::Entities::Recipe
+        { success: true }
       end
     end
   end

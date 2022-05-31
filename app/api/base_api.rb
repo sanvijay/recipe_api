@@ -8,6 +8,7 @@ class BaseAPI < Grape::API
   mount V1::Oauth
   mount V1::Recipes
   mount V1::Users
+  mount V1::Feedbacks
 
   if Rails.env.development?
     add_swagger_documentation hide_documentation_path: true,

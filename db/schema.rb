@@ -26,10 +26,12 @@ ActiveRecord::Schema.define(version: 2022_05_31_121437) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.string "type"
+    t.string "category"
     t.string "description"
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_feedbacks_on_user_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -117,6 +119,7 @@ ActiveRecord::Schema.define(version: 2022_05_31_121437) do
 
   add_foreign_key "favorites", "recipes"
   add_foreign_key "favorites", "users"
+  add_foreign_key "feedbacks", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
