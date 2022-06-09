@@ -32,7 +32,7 @@ class Recipe < ApplicationRecord
   has_many :liked_users, through: :favorites, class_name: "User", source: :user
 
   before_validation :create_slug
-  before_save :store_ingredient_array
+  before_save :set_ingredient_array, :save_ingredients
 
   private
 
@@ -56,7 +56,18 @@ class Recipe < ApplicationRecord
     errors.add(:instructions, "one or more instructions are invalid") if invalid
   end
 
-  def store_ingredient_array
-    self.ingredients = ingredient_details.map { |ing| ing['title'].downcase }
+  def set_ingredient_array
+    self.ingredients = ingredient_details.map { |ing| ing['title'].parameterize }
+  end
+
+  def save_ingredients
+    ingredient_details.each do |ing|
+      parameterized_ingredient = ing['title'].parameterize
+
+      Ingredient.create_with(title: ing["title"])
+                .find_or_create_by(slug: parameterized_ingredient)
+
+      ing["slug"] = parameterized_ingredient
+    end
   end
 end
